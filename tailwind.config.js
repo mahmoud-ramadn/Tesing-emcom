@@ -1,0 +1,35 @@
+module.exports = {
+  content: [
+    './pages/**/*.{vue,js}',
+    './components/**/*.{vue,js}',
+    './layouts/**/*.{vue,js}',
+    './app.vue',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#707070',
+        secondary: '#FAFAFB',
+        darkblue: '#22262A',
+        lighblue: '#33A0FF',
+        blue: '#2E90E5',
+        bluethick: '#2678BF',
+        bluetow: '#19507F',
+        blueOne: '#19507F',
+        violet: '#8F65FF',
+        violettwo: '#9E7AFF',
+        violetlight: '#BAA1FF',
+        danger: '#FF4252',
+        dangertwo: '#FF4858',
+        dangerlight: '#FF6875',
+        sucess: '#0AD00A',
+        sucesstwo: '#39DB39',
+        sucesslight: '6DE26D',
+        waring: '#FFC600',
+        waringtwo: '#FFD33A',
+        waringlight: '#FFDA58',
+      },
+    },
+  },
+  plugins: [],
+};

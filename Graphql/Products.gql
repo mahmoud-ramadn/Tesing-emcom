@@ -1,0 +1,39 @@
+query GetProducts($limit: Int = 8) {
+  products(limit: $limit) {
+    id
+    title
+    price
+    description
+    category {
+      name
+      image
+    }
+    images
+  }
+}
+
+query getProduct($id:ID!) {
+  product(id:$id) {
+    description
+    title
+    price
+    images
+    category {
+      name
+      image
+    }
+  }
+}
+query Realted($limit: Int = 4, $offset: Int = 0) {
+  products(limit: $limit, offset: $offset) {
+    id
+    title
+    price
+    description
+    category {
+      name
+      image
+    }
+    images
+  }
+}
