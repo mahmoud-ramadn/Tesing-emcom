@@ -8,7 +8,10 @@
         <!-- Left Column (Product Info or Image) -->
         <div class="md:col-span-4 col-span-1 flex flex-col justify-between md:h-[967px]">
           <!-- part one -->
-          <div class="md:h-[464px] grid md:grid-cols-5 gap-6 grid-cols-1">
+          <div    v-motion
+  :initial="{ opacity: 0,x:-100}"
+  :visible-once="{ opacity: 1, x: 0, transition: { duration: 500, type: 'ease' } }"
+  :delay="0"  class="md:h-[464px] grid md:grid-cols-5 gap-6 grid-cols-1">
             <div  v-if="loading" class=" md:col-span-2 col-span-1 px-8  h-[300px] bg-gray-600 rounded-md flex items-center   justify-center "  >
                 loaindg..
               </div>

@@ -131,74 +131,70 @@
       >
 
 
-        <NuxtLink
-          v-for="(product, index) in visibleProducts"
-          :key="index"
-          :to="`product/${product.id}`"
-          class="col-span-1 md:h-[500px] flex flex-col    z-[9]  justify-between space-y-5 items-center p-4 rounded-sm pt-[30px] relative pb-[35px] border-[1px]"
-        >
+      <NuxtLink
+  v-motion
+  :initial="{ opacity: 0, x: -100 }"
+  :visible-once="{ opacity: 1, x: 0, transition: { duration: 2000, type: 'ease' } }"
+  :delay="0"
+  v-for="(product, index) in visibleProducts"
+  :key="index"
+  :to="`/product/${product.id}`"
+  class="col-span-1 md:h-[500px] flex flex-col justify-between space-y-5 items-center p-4 rounded-sm pt-[30px] relative pb-[35px] border-[1px]"
+>
+  <div class="w-full h-[87%] z-[9] group absolute left-0 top-[10%]">
+    <div class="bg-white/70 w-full h-full group-hover:flex hidden items-center justify-around">
+      <div class="w-[40px] h-[40px] rounded-full border-[2px] border-blue flex items-center justify-center">
+        <Icon name="weui:like-outlined" class="text-lg font-bold text-blue" />
+      </div>
+      
+      <!-- الأيقونة التي تقوم بعرض التنبيه عند النقر عليها -->
+      <div
+        class="w-[40px] h-[40px] rounded-full border-[2px] border-blue flex items-center justify-center"
+        @click.stop="handleCartClick(product)"
+      >
+        <Icon name="iconoir:cart" class="text-lg font-bold text-blue" />
+      </div>
+    </div>
+  </div>
 
-         <div class=" w-full h-[87%]   z-10  group absolute left-0   top-[10%]   ">
-        
-           <div class="  bg-white/70 w-full h-full  group-hover:flex   hidden items-center justify-around ">
+  <h5 class="w-[40px] h-[21px] self-start flex items-center justify-center bg-dangerlight text-white font-semibold text-xs rounded-md">
+    Hot
+  </h5>
+  <img class="w-full h-full" :src="product.images[0]" alt="" />
 
-            <div class="w-[40px] h-[40px]  rounded-full  border-[2px]  border-blue flex items-center justify-center ">
-              <Icon name="weui:like-outlined"  class=" text-lg font-bold  text-blue" />
-            </div>
-            
-            <div class="w-[40px] h-[40px]  rounded-full  border-[2px]  border-blue flex items-center justify-center ">
-              <Icon name="iconoir:cart" class=" text-lg font-bold  text-blue" />
-            </div>
+  <div class="mx-auto mt-4 w-[129px] h-[85px] flex flex-col justify-between text-center items-center">
+    <h4 class="text-xs">{{ product.title }}</h4>
 
-           </div>
+    <div>
+      <span>
+        <Icon
+          v-for="n in 3"
+          :key="n"
+          name="ic:baseline-star"
+          width="36px"
+          height="36px"
+          style="color: #ebc101"
+        />
+        <Icon
+          v-for="n in 2"
+          :key="n"
+          name="material-symbols-light:star-outline"
+          width="36px"
+          height="36px"
+          class="text-primary"
+        />
+      </span>
+    </div>
 
-         </div>
-
-          <h5
-            class="w-[40px] h-[21px] self-start flex items-center justify-center bg-dangerlight text-white font-semibold text-xs rounded-md"
-          >
-            Hot
-          </h5>
-          <img
-            class="w-full  h-full "
-            :src="product.images[0]"
-            alt=""
-          />
+    <small class="text-danger">
+      ${{ product.price }}
+      <span class="line-through text-primary">$599</span>
+    </small>
+  </div>
+</NuxtLink>
 
 
 
-          <div
-            class="mx-auto mt-4 w-[129px] h-[85px] flex flex-col justify-between text-center items-center"
-          >
-            <h4 class="text-xs">{{ product.title }}</h4>
-
-            <div>
-              <span>
-                <Icon
-                  v-for="n in 3"
-                  :key="n"
-                  name="ic:baseline-star"
-                  width="36px"
-                  height="36px"
-                  style="color: #ebc101"
-                />
-                <Icon
-                  v-for="n in 2"
-                  :key="n"
-                  name="material-symbols-light:star-outline"
-                  width="36px"
-                  height="36px"
-                  class="text-primary"
-                />
-              </span>
-            </div>
-
-            <small class="text-danger">
-              ${{ product.price }}
-              <span class="line-through text-primary">$599</span>
-            </small>
-          </div>
-        </NuxtLink>
 
 
 
@@ -215,7 +211,10 @@
     </div>
   </div>
 
-  <div class="mt-[151px] overflow-hidden w-full bg-blue md:h-[600px]">
+  <div   v-motion
+  :initial="{ opacity: 0,x:-100}"
+  :visible-once="{ opacity: 1, x: 0, transition: { duration: 2000, type: 'ease' } }"
+  :delay="0" class="mt-[151px] overflow-hidden w-full bg-blue md:h-[600px]">
     <div
       class="md:w-[1124px] flex flex-wrap mx-auto items-center justify-between"
     >
@@ -243,12 +242,19 @@
   </div>
 
   <div
+ 
     class="container  px-4 mx-auto flex flex-col items-center justify-between mt-24"
   >
+
     <div
+    v-motion
+  :initial="{ opacity: 0,x:100}"
+  :visible-once="{ opacity: 1, x: 0, transition: { duration: 2000, type: 'ease' } }"
+  :delay="0"
       class="md:w-[1170px] md:h-[249px] grid md:grid-cols-3 grid-cols-1 gap-20"
     >
       <div
+      
         v-for="(item, index) in whyUsData"
         :key="index"
         class="col-span-1 h-full text-center"
@@ -262,6 +268,10 @@
     <!-- lastes news -->
 
     <div
+    v-motion
+  :initial="{ opacity: 0,x:-100}"
+  :visible-once="{ opacity: 1, x: 0, transition: { duration: 2000, type: 'ease' } }"
+  :delay="0"
       class="md:w-[1163px] mt-28 md:h-[265px] md:mb-[140px] mb-[500px] text-center"
     >
       <h1 class="font-semibold text-3xl text-darkblue">LATEST NEWS</h1>
@@ -313,6 +323,10 @@
 
     <!-- FEATURED PRODUCTS -->
     <div
+    v-motion
+  :initial="{ opacity: 0,x:100}"
+  :visible-once="{ opacity: 1, x: 0, transition: { duration: 2000, type: 'ease' } }"
+  :delay="0"
       class="md:w-[1163px] md:h-[265px] mx-auto md:mb-[130px] mb-[500px] text-center"
     >
       <h1 class="font-semibold text-3xl text-darkblue">FEATURED PRODUCTS</h1>
@@ -405,7 +419,9 @@ import { useCounter } from '~/Composables/useFetchProduct';
 
 
  
-
+const handleAlert = () => {
+  alert('تم إضافة المنتج إلى سلة التسوق');
+};
 
 const CurrentDisplayedProduct = ref(8);
 
