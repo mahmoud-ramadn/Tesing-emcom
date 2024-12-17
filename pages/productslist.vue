@@ -155,11 +155,16 @@
             <div
               class="md:w-[270px] md:h-[270px] border-[1px] overflow-hidden shadow-sm rounded-sm"
             >
+             <NuxtLink :to="`product/${product.id}`">
+
               <img
                 class="w-full h-full object-cover"
                 :src="product.images[0]"
                 alt=""
               />
+             </NuxtLink>
+           
+
             </div>
 
             <div class="md:w-[570px] md:h-[300px]">
@@ -189,6 +194,7 @@
                 <div class="flex items-center gap-8">
                   <button
                     type="button"
+                     @click="AddToCart(product.id)"
                     class="flex items-center justify-center gap-3 text-sm font-semibold text-[#33A0FF] rounded-sm w-40 h-12 bg-blue/30"
                   >
                     <Icon
@@ -231,7 +237,9 @@
 
 <script setup lang="ts">
 import { useCounter } from '~/Composables/useFetchProduct';
+import { useCartStore } from '~/store/useAddToCart';
 
+const {AddToCart }= useCartStore()
 const value = ref([10.99, 2.99]);
 
 interface TCategory {
@@ -287,62 +295,15 @@ const AccesoriseBtn = [
 
 const selectedCity = ref("");
 
-// Function to handle city selection
 const selectCity = (cityName: string) => {
   selectedCity.value = cityName;
 };
 
-// const ProductsData = [
-//   {
-//     title: "Beats Solo2 On Ear Headphones - Black",
-//     imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     price: "$499",
-//     discout: "$599",
-//     desc: "Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lectus lorem nunc leifend laorevtr istique et congue. Vivamus adipiscin vulputate g nisl ut dolor ...",
-//   },
-//   {
-//     title: "Beats Solo2 On Ear Headphones - Black",
-//     imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     price: "$499",
-//     discout: "$599",
-//     desc: "Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lectus lorem nunc leifend laorevtr istique et congue. Vivamus adipiscin vulputate g nisl ut dolor ...",
-//   },
-//   {
-//     title: "Beats Solo2 On Ear Headphones - Black",
-//     imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     price: "$499",
-//     discout: "$599",
-//     desc: "Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lectus lorem nunc leifend laorevtr istique et congue. Vivamus adipiscin vulputate g nisl ut dolor ...",
-//   },
-//   {
-//     title: "Beats Solo2 On Ear Headphones - Black",
-//     imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     price: "$499",
-//     discout: "$599",
-//     desc: "Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lectus lorem nunc leifend laorevtr istique et congue. Vivamus adipiscin vulputate g nisl ut dolor ...",
-//   },
-//   {
-//     title: "Beats Solo2 On Ear Headphones - Black",
-//     imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     price: "$499",
-//     discout: "$599",
-//     desc: "Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lectus lorem nunc leifend laorevtr istique et congue. Vivamus adipiscin vulputate g nisl ut dolor ...",
-//   },
-//   {
-//     title: "Beats Solo2 On Ear Headphones - Black",
-//     imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     price: "$499",
-//     discout: "$599",
-//     desc: "Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lectus lorem nunc leifend laorevtr istique et congue. Vivamus adipiscin vulputate g nisl ut dolor ...",
-//   },
-//   {
-//     title: "Beats Solo2 On Ear Headphones - Black",
-//     imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-//     price: "$499",
-//     discout: "$599",
-//     desc: "Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus. Sed et lectus lorem nunc leifend laorevtr istique et congue. Vivamus adipiscin vulputate g nisl ut dolor ...",
-//   },
-// ];
+
+
+
+
+
 
 const value2 = ref(3);
 const colors = ref(["#99A9BF", "#F7BA2A", "#FF9900"]);

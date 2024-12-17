@@ -74,7 +74,14 @@
 
 
   <div class="md:w-[1119px]   hidden absolute   top-[600px] mx-auto h-[332px] md:grid md:grid-cols-3 grid-cols-1">
-    <div class="md:col-span-1 h-full flex justify-end items-end bg-dangerlight">
+    <div class="md:col-span-1 h-full  relative flex justify-end items-end bg-dangerlight">
+
+
+      <div class="   absolute     w-[200px] left-8  top-8  flex   flex-col justify-between   text-white self-center  h-2/3 ">
+        <h1 class=" font-bold text-2xl">iphone x</h1>
+        <p class=" text-sm  font-thin  leading-7 ">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores</p>
+        <h3 class="  font-medium text-2xl">$399</h3>
+      </div>
       <img src="/img/phoneOne.svg" />
     </div>
     <div class="col-span-1 h-full relative flex justify-end items-end bg-white">
@@ -85,6 +92,14 @@
       <img src="/img/two.jpg" />
     </div>
     <div class="col-span-1 h-full relative flex justify-end items-end bg-primary">
+      <div class="   absolute     w-[200px] left-8  top-8  flex   flex-col justify-between   text-white self-center  h-2/3 ">
+        <h1 class=" font-bold text-2xl">GoPro Hero 6</h1>
+        <p class=" text-sm  font-thin  leading-7 ">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Asperiores</p>
+        <h3 class="  font-medium text-2xl">$299</h3>
+      </div>
+
+
+
       <img src="/img/three.png" />
     </div>
   </div>
@@ -131,29 +146,25 @@
       >
 
 
-      <NuxtLink
+      <div
   v-motion
   :initial="{ opacity: 0, x: -100 }"
   :visible-once="{ opacity: 1, x: 0, transition: { duration: 2000, type: 'ease' } }"
   :delay="0"
   v-for="(product, index) in visibleProducts"
   :key="index"
-  :to="`/product/${product.id}`"
   class="col-span-1 md:h-[500px] flex flex-col justify-between space-y-5 items-center p-4 rounded-sm pt-[30px] relative pb-[35px] border-[1px]"
 >
-  <div class="w-full h-[87%] z-[9] group absolute left-0 top-[10%]">
+  <div class="w-full h-[50%]  group absolute left-0 top-1/2 -translate-y-1/2 ">
     <div class="bg-white/70 w-full h-full group-hover:flex hidden items-center justify-around">
       <div class="w-[40px] h-[40px] rounded-full border-[2px] border-blue flex items-center justify-center">
         <Icon name="weui:like-outlined" class="text-lg font-bold text-blue" />
       </div>
-      
-      <!-- الأيقونة التي تقوم بعرض التنبيه عند النقر عليها -->
-      <div
-        class="w-[40px] h-[40px] rounded-full border-[2px] border-blue flex items-center justify-center"
-        @click.stop="handleCartClick(product)"
+      <button type="button" @click=" AddToCart(product.id)"
+        class="w-[40px] h-[40px] rounded-full cursor-pointer border-[2px] border-blue flex items-center justify-center"
       >
         <Icon name="iconoir:cart" class="text-lg font-bold text-blue" />
-      </div>
+      </button>
     </div>
   </div>
 
@@ -162,7 +173,7 @@
   </h5>
   <img class="w-full h-full" :src="product.images[0]" alt="" />
 
-  <div class="mx-auto mt-4 w-[129px] h-[85px] flex flex-col justify-between text-center items-center">
+  <NuxtLink   :to="`product/${product.id}`"  class="mx-auto mt-4 w-[129px] h-[85px] flex flex-col justify-between text-center items-center">
     <h4 class="text-xs">{{ product.title }}</h4>
 
     <div>
@@ -190,13 +201,8 @@
       ${{ product.price }}
       <span class="line-through text-primary">$599</span>
     </small>
-  </div>
-</NuxtLink>
-
-
-
-
-
+  </NuxtLink>
+</div>
 
       </div>
 
@@ -415,58 +421,51 @@
 </template>
 
 <script setup lang="ts">
+
 import { useCounter } from '~/Composables/useFetchProduct';
+import { useCartStore } from '~/store/useAddToCart';
 
-
- 
-const handleAlert = () => {
-  alert('تم إضافة المنتج إلى سلة التسوق');
-};
-
+interface TCategory {
+  name: string;
+  image: string;
+}
+interface Tproducts {
+  id: string;
+  title: string;
+  price: number;
+  description: string;
+  category: TCategory;
+  images: string[];
+}
 const CurrentDisplayedProduct = ref(8);
 
+const { AddToCart }= useCartStore()
 
-const CarouselData = [
-  {
-    heroImg: "/img/hero.svg",
-  },
-];
-
-const {Fetcheddata, loading }= await useCounter();
-
-
-
-console.log(loading.value);
-
-
-const ProductsData = ref([]);
-ProductsData.value =Fetcheddata.value
-
+const ProductsData = ref<Tproducts[]>([]);
+const {Fetcheddata, loading }=  await useCounter();
+ProductsData.value = Fetcheddata.value;
 let locked=ref(false)
 const totalProducts = ref<number>(15);
 
-// دالة لتحميل المزيد من المنتجات
+
 const toggleLoadMore = () => {
-  // إذا كانت جميع المنتجات معروضة بالفعل، نعرض فقط أول 8 منتجات
   if (CurrentDisplayedProduct.value === totalProducts.value) {
     CurrentDisplayedProduct.value = 8;
   } else {
-    // زيادة عدد المنتجات المعروضة بـ 4 في كل مرة
     CurrentDisplayedProduct.value += 4;
   }
-};
+}
+
 
 const visibleProducts = computed(() => {
   return ProductsData.value.slice(0, CurrentDisplayedProduct.value);
 });
 
+
 const loadMoreButtonText = computed(() => {
   if (CurrentDisplayedProduct.value === totalProducts.value) {
-
-
     return "SHOW LESS";
   } else if (CurrentDisplayedProduct.value >= totalProducts.value) {
- 
     locked.value=true;
     return "No  more data";
   } else {
@@ -492,6 +491,8 @@ const whyUsData = [
   },
 ];
 </script>
+
+
 <style scoped>
 .setimg {
   background-position: center;

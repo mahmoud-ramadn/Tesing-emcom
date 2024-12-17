@@ -4,7 +4,7 @@
     <div class="container mx-auto mt-[100px]">
       <div class="md:w-[1170px] mx-auto overflow-x-auto">
         <el-table
-          :data="tableData"
+          :data="cartList"
           class="bg-purple-600 text-white"
           style="width: 100%"
         >
@@ -12,8 +12,10 @@
           <el-table-column prop="imge" label="PRODUCT" width="610">
             <template #default="{ row }">
               <div class="flex justify-between items-center">
-                <div
-                  class="w-6 h-6 cursor-pointer rounded-full bg-[#FF6875]/20 flex justify-center items-center"
+
+
+                <button type="button" @click="removeFromCart(row.id)"
+                  class="w-6 h-6 cursor-pointer   rounded-full bg-[#FF6875]/20 flex justify-center items-center"
                 >
                   <Icon
                     name="iwwa:delete"
@@ -21,14 +23,15 @@
                     height="8px"
                     style="color: #ff4252"
                   />
-                </div>
+                </button>
+
                 <img
                   class="h-[130px] w-[130px] object-cover"
-                  :src="row.imge"
+                  :src="row.images[0]"
                   alt="Product Image"
                 />
                 <p class="text-base font-semibold leading-7 text-darkblue">
-                  {{ row.titel }}
+                  {{ row.title }}
                 </p>
               </div>
             </template>
@@ -59,7 +62,7 @@
           <!-- Unit Price Column -->
           <el-table-column prop="address" label="UNIT PRICE" width="149">
             <template #default="{ row }">
-              <span>{{ row.unitprice }}</span>
+              <span>{{ row.price }} </span>
             </template>
           </el-table-column>
         </el-table>
@@ -78,7 +81,16 @@
             />
           </div>
 
-          <div class="w-[370px] h-[316px] bg-green-200"></div>
+          <div class="w-[370px] h-[316px] flex flex-col justify-between ">
+              <h2 class=" flex  justify-between items-center   text-base  font-normal">Subtotal <span>${{ totalPrice }}</span></h2>
+              <h2 class=" flex  justify-between items-center  text-base font-normal ">Shipping fee <span>${{totalPrice - 20}}</span></h2>
+              <h2 class=" flex  justify-between items-center  text-base  ">Coupon <span>No</span></h2>
+            <el-divider />
+
+             <h2 class=" flex  justify-between items-center  text-3xl font-semibold ">TOTAL  <span class=" font-semibold text-3xl ">$118</span></h2>
+            <button  class="  h-[60px] bg-blue  rounded-md  text-white  text-base font-semibold ">check out</button>
+
+          </div>
         </div>
       </div>
     </div>
@@ -86,36 +98,23 @@
 </template>
 
 <script setup lang="ts">
+import { useCartStore } from '~/store/useAddToCart';
+
 const num = ref(1);
 const handleChange = (value: number) => {
 };
 
-const tableData = [
-  {
-    imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    titel: "Philips Hue 7W BR30 Connected Downlight Lamp",
-    price: "$998",
-    unitprice: "$499",
-  },
-  {
-    imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    titel: "Philips Hue 7W BR30 Connected Downlight Lamp",
-    price: "$998",
-    unitprice: "$499",
-  },
-  {
-    imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    titel: "Philips Hue 7W BR30 Connected Downlight Lamp",
-    price: "$998",
-    unitprice: "$499",
-  },
-  {
-    imge: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    titel: "Philips Hue 7W BR30 Connected Downlight Lamp",
-    price: "$998",
-    unitprice: "$499",
-  },
-];
+
+
+const { cartList,removeFromCart}= useCartStore()
+
+const totalPrice=computed(()=>{
+  return cartList.map(item=>item.price).reduce((acc,product)=>{
+    return acc +product
+  },0)
+})
+
+
 </script>
 
 <style scoped>

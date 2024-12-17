@@ -1,4 +1,3 @@
-// composables/useCounter.ts
 
 interface TCategory {
   name: string;

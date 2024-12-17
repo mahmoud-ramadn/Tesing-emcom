@@ -14,6 +14,7 @@ query GetProducts($limit: Int = 8) {
 
 query getProduct($id:ID!) {
   product(id:$id) {
+    id
     description
     title
     price

@@ -11,12 +11,6 @@ console.log(Fetcheddata.value);
 
 </script>
 
-<template>
-  <div>
-{{ Fetcheddata }}
-   
-
-
-   
-  </div>
+<template >
+ 
 </template>

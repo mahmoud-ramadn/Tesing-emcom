@@ -142,6 +142,7 @@
 
                   <div class="flex items-center gap-8">
                     <button
+                    @click="AddToCart(productId)"
                       type="button"
                       class="flex items-center justify-center gap-3 text-sm font-semibold text-[#33A0FF] rounded-sm w-40 h-12 bg-blue/30"
                     >
@@ -287,8 +288,21 @@
         >
           <div
             v-for="(itme,index) in RealatedProductsData  "  :key="index"
-            class="grid col-span-1 md:h-[349px] px-4 rounded-sm pt-[30px]  space-y-4 pb-[35px] border-[1px]"
+            class="grid col-span-1 md:h-[349px] px-4 rounded-sm pt-[30px] relative  space-y-4 pb-[35px] border-[1px]"
           >
+
+          <div class="w-full h-[50%]  group absolute left-0 top-1/2 -translate-y-1/2 ">
+    <div class="bg-white/70 w-full h-full group-hover:flex hidden items-center justify-around">
+      <div class="w-[40px] h-[40px] rounded-full border-[2px] border-blue flex items-center justify-center">
+        <Icon name="weui:like-outlined" class="text-lg font-bold text-blue" />
+      </div>
+      <button type="button" @click=" AddToCart(itme.id)"
+        class="w-[40px] h-[40px] rounded-full cursor-pointer border-[2px] border-blue flex items-center justify-center"
+      >
+        <Icon name="iconoir:cart" class="text-lg font-bold text-blue" />
+      </button>
+    </div>
+  </div>
             <h5
               class="w-[40px] h-[21px] flex items-center justify-center bg-dangerlight text-white font-semibold text-xs rounded-md"
             >
@@ -339,12 +353,13 @@ const value = ref(3);
 const value1 = ref(3);
 import type { TabsPaneContext } from "element-plus";
 import { useSingelProduct } from "~/Composables/useProduct";
+import { useCartStore } from "~/store/useAddToCart";
 
 
+const { AddToCart}=   useCartStore()
 
+const productId:any=ref(useRoute().params.id)
 
-// single products
-const productId = useRoute().params.id;
 interface TCategory{
   name: string;
   image: string;
@@ -357,6 +372,8 @@ interface TProduct{
   category: TCategory;
   
 }
+
+
 const loading = ref(false);
 const productinfo = ref<TProduct|null>(null);
 
@@ -378,8 +395,12 @@ const ProductsData = {
 
 
 const CircelsColor = ["#006CFF", "#FC3E39", "#171717", "#FFF600"];
+
 const activeIndex = ref<number | null>(0);
+
 const num = ref(1);
+
+
 const handleChange = (value: number) => {
 };
 const activeName = ref("first");
@@ -387,7 +408,6 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);
 };
 
-//  RELATED PRODUCTS
 
 interface TCategory {
   name: string;
@@ -405,17 +425,13 @@ const RealatedProductsData = ref<Tproducts[]>([]);
 
 
 
-
 try {
-  const { data:Realtaed } = await useAsyncGql({
-  operation: "Realted",
-});
-
-RealatedProductsData.value =Realtaed.value.products;
-
+  const { data } = await useAsyncGql({
+  operation:"Realted",
+})
+RealatedProductsData.value=data.value.products
 } catch (error){
   console.log(error);
-  
 }
 
 </script>
@@ -427,12 +443,12 @@ RealatedProductsData.value =Realtaed.value.products;
 
   color: #475669;
   opacity: 0.75;
-  line-height: 300px; /* Ensure the text is vertically centered */
+  line-height: 300px; 
   margin: 0;
   text-align: center;
 }
 
-/* Even and Odd Carousel Items */
+
 .demo-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;
@@ -443,17 +459,16 @@ RealatedProductsData.value =Realtaed.value.products;
 .el-carousel__indicator button {
   background-color: blue;
 }
-/* Make Carousel Responsive */
+
 .el-carousel {
-  width: 100%; /* Full width of the parent container */
-  height: 100%; /* Full height of the parent container */
+  width: 100%; 
+  height: 100%; 
 }
 
-/* Adjustments for mobile screens */
 @media (max-width: 767px) {
   .el-carousel__item h3 {
-    line-height: 150px; /* Adjust for smaller screens */
-    font-size: 1.25rem; /* Smaller font size */
+    line-height: 150px; 
+    font-size: 1.25rem; 
   }
 }
 
