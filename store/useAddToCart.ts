@@ -1,5 +1,4 @@
-import { defineStore } from 'pinia';
-import { ref, onMounted, computed } from 'vue';
+
 
 interface TCategory {
   name: string;
@@ -16,27 +15,34 @@ interface TProduct {
 }
 
 export const useCartStore = defineStore('cart', () => {
-  const cartList = ref<TProduct[]>(JSON.parse(localStorage.getItem('Listofcart') || '[]'));
+  const cartList = ref<TProduct[]>([]);
 
   const saveCart = () => {
-    localStorage.setItem('Listofcart', JSON.stringify(cartList.value));
-}
+    if (process.client) {
+      localStorage.setItem('Listofcart', JSON.stringify(cartList.value));
+    }
+  };
 
+  const loadCart = () => {
+    if (process.client) {
+      const storedCart = localStorage.getItem('Listofcart');
+      if (storedCart) {
+        cartList.value = JSON.parse(storedCart);
+      }
+    }
+  };
 
   const AddToCart = async (id: string) => {
     const exists = cartList.value.some((item) => item.id === id);
-    
     if (exists) {
       console.log('Product already in the cart, skipping add');
       return;
     }
-  
     try {
       const { data } = await useAsyncGql({
         operation: 'getProduct',
         variables: { id: id },
       });
-
       const product = data.value.product as TProduct;
       console.log('Adding product to cart:', product);
       cartList.value.push(product);
@@ -53,5 +59,10 @@ export const useCartStore = defineStore('cart', () => {
       saveCart();
     }
   };
-  return { cartList, AddToCart, removeFromCart  };
+
+
+    loadCart();
+
+
+  return { cartList, AddToCart, removeFromCart };
 });
