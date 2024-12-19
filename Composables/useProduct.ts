@@ -12,15 +12,8 @@ interface Tproducts {
     category: TCategory;
     images: string[];
   }
-
-
-
   export const  useSingelProduct= async (id:string)=>{
-
     const ProductData=ref<Tproducts|null>(null)
-
-
-
      try {
         const {data}= await useAsyncGql({
             operation:'getProduct',

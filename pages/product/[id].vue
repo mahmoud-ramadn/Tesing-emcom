@@ -1,12 +1,9 @@
 <template lang="pug">
   div(class="min-h-screen")
     div(class="h-12 mb-14 bg-primary")
-    //- // Product Info
     div(class="container mx-auto")
       div(class="grid md:grid-cols-5 grid-cols-1 gap-4")
-        //- // Left Column (Product Info or Image)
         div(class="md:col-span-4 col-span-1 flex flex-col justify-between md:h-[967px]")
-          //- // Part one
           div(class="md:h-[464px] grid md:grid-cols-5 gap-6 grid-cols-1")
             div(v-if="loading" class="md:col-span-2 col-span-1 px-8 h-[300px] bg-gray-600 rounded-md flex items-center justify-center")
               p Loading...
@@ -66,7 +63,7 @@
                       class="text-sm font-semibold text-[#33A0FF] rounded-sm w-12 h-12 bg-blue/30"
                     )
                       Icon(name="weui:like-outlined" class="text-lg text-[#33A0FF] font-semibold")
-          //- // Part two
+
           div(class="md:h-[472px] flex flex-col px-2 items-end")
             div(class="md:h-20 w-full items-start md:justify-end justify-around gap-x-7 flex")
               el-button(style="width: 230px; height: 46px; background-color: #03a9f4; color: white;")
@@ -89,7 +86,6 @@
                 p(class="leading-10 text-sm text-darkblue") {{ productinfo?.description }}
               el-tab-pane(label="Reviews" name="second") Config
               el-tab-pane(label="Another tab" name="third") Role
-        //- // Right Column (Carousel)
         div(class="md:col-span-1 col-span-1 space-y-2")
           div(class="md:h-[428px]")
             h3(class="text-primary font-medium text-lg") BEST SELLER

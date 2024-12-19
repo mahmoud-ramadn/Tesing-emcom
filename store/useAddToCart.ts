@@ -27,7 +27,12 @@ export const useCartStore = defineStore('cart', () => {
     if (process.client) {
       const storedCart = localStorage.getItem('Listofcart');
       if (storedCart) {
-        cartList.value = JSON.parse(storedCart);
+        try {
+          cartList.value = JSON.parse(storedCart);
+          console.log('Cart loaded:', cartList.value);
+        } catch (error) {
+          console.error('Error parsing stored cart:', error);
+        }
       }
     }
   };
@@ -44,14 +49,13 @@ export const useCartStore = defineStore('cart', () => {
         variables: { id: id },
       });
       const product = data.value.product as TProduct;
-      console.log('Adding product to cart:', product);
-      cartList.value.push(product);
+ 
       saveCart();
+    return  cartList.value.push(product);
     } catch (error) {
       console.error('Error fetching product:', error);
     }
   };
-
   const removeFromCart = (id: string) => {
     const index = cartList.value.findIndex((item) => item.id === id);
     if (index !== -1) {
@@ -60,9 +64,10 @@ export const useCartStore = defineStore('cart', () => {
     }
   };
 
+  // Load cart on store initialization
 
     loadCart();
 
-
-  return { cartList, AddToCart, removeFromCart };
+  return { cartList, AddToCart, removeFromCart, saveCart, loadCart };
 });
+

@@ -7,8 +7,6 @@
           :data="cartList"
           class="bg-purple-600 text-white"
           style="width: 100%")
-        
-          //- <!-- Product Column -->
           el-table-column(prop="imge" label="PRODUCT" width="610")
             template( #default="{ row }")
               div( class="flex justify-between items-center")
@@ -26,13 +24,12 @@
                   :src="row.images[0]"
                   alt="Product Image")
                 p( class="text-base font-semibold leading-7 text-darkblue") {{ row.title }}
-          //- <!-- Price Column -->
           el-table-column( prop="name" label="PRICE" width="140")
             template( #default="{ row }")
               span {{ row.price }}
            
 
-          //- <!-- Quantity Column (Adjusted for Full Width on Small Screens) -->
+          
           el-table-column( prop="address" label="QTY")
             template( #default="{ row }")
               div( class="w-full")
@@ -42,7 +39,8 @@
                   :max="11"
                   @change="handleChange"
                   class="w-full")
-          //- <!-- Unit Price Column -->
+
+          
           el-table-column( prop="address" label="UNIT PRICE" width="149")
             template( #default="{ row }")
               span {{ row.price }}
